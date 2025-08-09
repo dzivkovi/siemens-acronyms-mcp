@@ -55,6 +55,16 @@ The application follows a layered architecture with clear separation of concerns
 
 ## Development Workflow
 
+### Parallel Task Execution
+IMPORTANT: Always use parallel execution via the Task tool when possible. Examples of parallelizable tasks:
+- Searching for patterns across multiple directories simultaneously
+- Running independent test suites concurrently
+- Analyzing different code modules in parallel
+- Fetching data from multiple sources at once
+- Generating documentation for multiple components
+
+This improves performance significantly and should be the default approach for independent operations.
+
 ### TDD Approach (MANDATORY)
 1. Write failing test in `tests/test_acronyms_server.py`
 2. Implement minimal code to pass test
