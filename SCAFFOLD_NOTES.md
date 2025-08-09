@@ -1,14 +1,49 @@
 # Python Project Scaffold with Compound Engineering
 
-This repository serves as a reusable scaffold for Python projects using the Compound Engineering workflow with Claude Code.
+*"Here to learn from fellow builders making the leap" - and now, sharing back what we've learned.*
 
-## Inspiration & Philosophy
+## The Story Behind This Scaffold
 
-This scaffold implements the "Compound Engineering" approach, inspired by:
-- **Article**: [How I Use Claude Code to Ship Like a Team of Five](https://every.to/source-code/how-i-use-claude-code-to-ship-like-a-team-of-five) by Kieran (Every Inc)
+I'm Daniel from [Serverless Toronto](http://serverlesstoronto.org/). I've been using LLMs since late 2022, but it wasn't until I saw Kieran Klaassen's video that everything clicked:
+
 - **Video**: [Claude Code: How Two Engineers Ship Like a Team of 15](https://www.youtube.com/watch?v=Lh_X32t9_po)
 
-The core philosophy: Stop thinking in terms of files and functions. Start thinking about outcomes and delegation.
+This was my AHA moment. I adopted his "/issue + /work commands + Kanban" setup and found myself shipping at the velocity of a small team—thinking less like a lone developer and more like an Engineering Manager orchestrating parallel work streams.
+
+Later, Kieran documented his workflow in detail, and Every Media, Inc. published their prompt templates:
+- **Article**: [How I Use Claude Code to Ship Like a Team of Five](https://every.to/source-code/how-i-use-claude-code-to-ship-like-a-team-of-five)
+- **Prompts**: [Claude Commands Repository](https://github.com/EveryInc/claude_commands)
+
+## The Real Discovery: It's Not About Coding
+
+Here's what most people miss about Compound Engineering: **it's not about coding faster—it's about specification and clarity**.
+
+This approach has given me a renewed appreciation for the work of Business Analysts. Why? Because it emphasizes the old saying: *"If you don't know where you're going, you'll end up somewhere else."*
+
+When you shift from coding to orchestrating AI agents, you suddenly have time to:
+- Create thorough designs
+- Think through edge cases
+- Write clear specifications
+- **Understand your users deeply**—what they actually need, not what's fun to build
+- **Polish the rough edges**—make software people love, not just tolerate
+- **Validate business value**—ensure every feature serves a real purpose
+- Act as a true Engineering Manager who thinks about outcomes, not outputs
+
+Technology doesn't exist in isolation—it's a function of business needs and human desires. The extra bandwidth from AI assistance means we can finally build software that's both powerful AND delightful to use.
+
+The paradox? By stepping back from the keyboard, you ship more and better code that actually matters.
+
+## Why This Scaffold Exists
+
+YouTube is flooded with "me too" Agentic videos promising 10x productivity. There's some good info there, but choose your mentors carefully—you'll spend more time reading than doing. Stay close to the source: [Anthropic's Best Practices](https://www.anthropic.com/engineering/claude-code-best-practices).
+
+This scaffold is my interpretation of Compound Engineering, battle-tested and ready for reuse. I'm thoroughly enjoying this moment in software development history, and I want to share this excitement with the rest of you.
+
+### The Core Philosophy
+
+"Stop thinking in terms of files and functions. Start thinking about outcomes and delegation." 
+
+This shifts your mental model from coding to engineering management—orchestrating multiple AI agents instead of being a single thread of execution, while keeping humans at the center of everything you build.
 
 ## What This Scaffold Provides
 
