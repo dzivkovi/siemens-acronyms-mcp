@@ -188,27 +188,32 @@ async def mcp_endpoint(request: Request):
     # Handle MCP protocol methods
     if method == "initialize":
         # MCP initialization handshake
-        return JSONResponse(
-            {
-                "jsonrpc": "2.0",
-                "result": {
-                    "protocolVersion": "0.1.0",
-                    "capabilities": {
-                        "tools": {},
-                        "resources": {}
-                    },
-                    "serverInfo": {
-                        "name": "siemens-acronyms",
-                        "version": APP_VERSION
-                    }
+        # Use the protocol version requested by the client if supported
+        requested_version = params.get("protocolVersion", "2025-06-18")
+        return JSONResponse({
+            "jsonrpc": "2.0",
+            "result": {
+                "protocolVersion": requested_version,  # Echo back the client's version
+                "capabilities": {
+                    "tools": {},
+                    "resources": {}
                 },
-                "id": request_id,
-            }
-        )
+                "serverInfo": {
+                    "name": "siemens-acronyms",
+                    "version": APP_VERSION
+                }
+            },
+            "id": request_id,
+        })
     
-    elif method == "initialized":
+    elif method == "initialized" or method == "notifications/initialized":
         # Client notification that initialization is complete
-        return JSONResponse({"jsonrpc": "2.0", "result": {}, "id": request_id})
+        # Notifications don't have IDs and don't require a response
+        if request_id is not None:
+            return JSONResponse({"jsonrpc": "2.0", "result": {}, "id": request_id})
+        else:
+            # For notifications, return empty response
+            return JSONResponse({})
     
     elif method == "tools/list":
         return JSONResponse(
