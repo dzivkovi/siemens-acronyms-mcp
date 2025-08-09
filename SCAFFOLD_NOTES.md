@@ -113,7 +113,50 @@ If keeping MCP:
 - Update MCP endpoint paths in CLAUDE.md
 - Modify authentication approach as needed
 
-### Step 5: Initialize Your Project
+### Step 5: Set Up GitHub Project Board (Required for /issue and /work commands)
+
+**See Working Example**: [Compound Engineering in Action](https://github.com/users/dzivkovi/projects/3)
+
+**Create Your Kanban Board:**
+1. Go to: https://github.com/YOUR_USERNAME?tab=projects
+2. Click "New project" → Select "Board" template
+3. Name it (e.g., "PROJECT_NAME Development" or "Compound Engineering in Action")
+4. You'll get 3 default columns: Todo, In Progress, Done
+
+**Optional: Add More Columns**
+1. Click the "+" button (far right, after Done column)
+2. Click "New Column" 
+3. Name it (e.g., "In Review" or "Awaiting feedback")
+4. Drag to reorder columns if needed
+5. Click "..." on any column to edit details or add descriptions
+
+**Verify Project-Repository Link**
+1. Check if already linked: In your project, look for repository name in the header
+2. If not linked: Go to project Settings → "Manage access" → Link repositories
+3. Make sure "Projects" is enabled in your repo Settings → Features
+
+**Optional: Make Project Public**
+- By default, projects are private
+- To make public: Project Settings → Scroll to "Danger zone" → Change visibility
+- Public projects allow community contributors to see your workflow
+
+**Optional: Add Project Description & README**
+- In project Settings, add a short description (what you're building)
+- Add a README to explain your workflow (markdown supported)
+- Or via CLI: `gh api graphql` to update both programmatically
+- This helps visitors understand your Compound Engineering approach
+
+**Enable Automation:**
+1. In the project, click "..." (top right menu) → Workflows
+2. Enable "Item added to project" → Default to "Todo"
+3. Enable "Item closed" → Move to "Done"
+
+**Test It:**
+Create an issue in your repo - it should automatically appear in the Todo column!
+
+This Kanban board is essential for the Claude Code workflow—the `/issue` and `/work` commands interact with it.
+
+### Step 6: Initialize Your Project
 ```bash
 # Install dependencies
 python -m venv venv
