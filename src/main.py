@@ -102,16 +102,8 @@ app.add_middleware(
 )
 
 
-@app.get("/.well-known/oauth-protected-resource")
-async def oauth_protected_resource():
-    """OAuth discovery endpoint - tells clients we use API key auth, not OAuth."""
-    # Return empty to indicate we don't use OAuth
-    # Claude Code will fall back to using the header authentication
-    return JSONResponse({
-        "resource_server": "http://localhost:8000",
-        "authorization_servers": [],  # Empty = no OAuth, use headers instead
-        "bearer_token_required": False
-    })
+# OAuth discovery endpoints removed - not needed for VS Code or Claude Code
+# Both work fine with just the X-API-Key header authentication
 
 
 @app.get("/health", response_model=HealthResponse)

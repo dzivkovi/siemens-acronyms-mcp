@@ -2,6 +2,21 @@
 
 A glossary service exposing Siemens-specific terminology via REST API and MCP (Model Context Protocol) endpoints. This demonstrates how to add MCP capabilities to existing internal APIs, making institutional knowledge accessible to AI assistants and development tools.
 
+## 🎯 See It In Action
+
+![MCP Server working in both Claude Code CLI and VS Code GitHub Copilot](./assets/MCP_demo_in_Claude_Code_and_GitHub_Copilot.png)
+
+*One MCP server, multiple AI assistants: The same Siemens glossary seamlessly integrates with Claude Code's CLI for automation and VS Code's GitHub Copilot for interactive development.*
+
+## ✨ Key Features
+
+- **Dual Protocol Support**: REST API for web apps, MCP for AI assistants
+- **Fuzzy Search**: Handles typos like "Temcenter" → "Teamcenter" 
+- **Multi-Client**: Works with Claude Code CLI, VS Code, and any MCP client
+- **Hot Reload**: Update glossary without restarting server
+- **Secure**: API key authentication for MCP endpoints
+- **Fast**: <50ms response time with 1000+ terms
+
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -47,6 +62,25 @@ A glossary service exposing Siemens-specific terminology via REST API and MCP (M
    ```
 
    The server will be available at http://localhost:8000
+
+### What's Included
+
+```
+siemens-acronyms-mcp/
+├── src/
+│   ├── main.py              # FastAPI server with REST & MCP endpoints
+│   └── acronyms_service.py  # Fuzzy search engine with file watching
+├── tests/
+│   └── test_acronyms_server.py  # 31 comprehensive tests
+├── siemens_acronyms.json    # Glossary data (3 samples, add more!)
+├── .vscode/
+│   ├── mcp.json            # VS Code MCP configuration
+│   └── settings.json       # Development settings
+├── .claude/
+│   └── settings.json       # Claude Code permissions
+└── assets/
+    └── MCP_demo_*.png      # Working demo screenshot
+```
 
 ## 📡 API Endpoints
 
@@ -226,69 +260,59 @@ After starting the server, you can connect Claude Code to use the acronyms servi
    - Use `--dangerously-skip-permissions` flag for scripts (use cautiously)
    - Configure allowed tools in `.claude/settings.json`
 
-### VS Code MCP Extension
+### VS Code with GitHub Copilot Chat
 
-If using VS Code with MCP extension, create `.vscode/mcp.json`:
+VS Code v1.103+ includes native MCP support integrated with GitHub Copilot Chat.
 
-```json
-{
-  "servers": {
-    "siemens-acronyms": {
-      "transport": "http",
-      "url": "http://localhost:8000/mcp",
-      "headers": {
-        "X-API-Key": "sk-team-A"
-      }
-    }
-  }
-}
-```
+#### Setup Instructions
 
-### Testing MCP Connection
+**Important for WSL2/Windows Users**: If running VS Code on Windows with the server in WSL2, use the User Configuration method below.
 
-You can test the MCP connection directly:
+1. **Start the MCP server** (in WSL2 or terminal):
+   ```bash
+   uvicorn src.main:app --reload --port 8000
+   ```
 
-```python
-# test_mcp_connection.py
-import httpx
-import asyncio
-import json
+2. **Configure in VS Code** (choose one method):
+   
+   **Method A: Via UI (Easier)**
+   - Open Command Palette (`Ctrl+Shift+P`)
+   - Run: `MCP: Add Server`
+   - Enter server details when prompted
+   - VS Code will save configuration automatically
+   
+   **Method B: Edit Configuration File**
+   - Open Command Palette (`Ctrl+Shift+P`)
+   - Run: `MCP: Open User Configuration`
+   - Add this configuration:
+   ```json
+   {
+     "servers": {
+       "siemens-acronyms": {
+         "type": "http",
+         "url": "http://localhost:8000/mcp",
+         "headers": {
+           "X-API-Key": "sk-team-A"
+         }
+       }
+     }
+   }
+   ```
+   - Save and reload VS Code
 
-async def test_mcp():
-    async with httpx.AsyncClient() as client:
-        # Test tools/list
-        response = await client.post(
-            "http://localhost:8000/mcp",
-            headers={"X-API-Key": "sk-team-A"},
-            json={
-                "jsonrpc": "2.0",
-                "method": "tools/list",
-                "id": 1
-            }
-        )
-        print("Tools available:", response.json())
-        
-        # Test search
-        response = await client.post(
-            "http://localhost:8000/mcp",
-            headers={"X-API-Key": "sk-team-A"},
-            json={
-                "jsonrpc": "2.0",
-                "method": "tools/call",
-                "params": {
-                    "name": "search_acronyms",
-                    "arguments": {"query": "EDA"}
-                },
-                "id": 2
-            }
-        )
-        result = response.json()
-        if "result" in result:
-            content = json.loads(result["result"]["content"][0]["text"])
-            print("Search results:", content)
+3. **Start and verify the server**:
+   - Command Palette → `MCP: Show Installed Servers`
+   - Click "Start" next to `siemens-acronyms`
+   - Should show "Running" status
 
-asyncio.run(test_mcp())
-```
+4. **Use in GitHub Copilot Chat**:
+   - Open Copilot Chat (`Ctrl+I`)
+   - Switch to "Agent" mode (click agent icon)
+   - Test: "What does DISW mean?"
+   - The tool `search_acronyms` will be invoked automatically
+
+**Note**: Windows automatically forwards `localhost:8000` from WSL2, so no special network configuration is needed.
+
 
 ## 🔍 Real-World Usage Examples
 
@@ -439,8 +463,8 @@ pytest -v
 
 ## 📄 License
 
-- **Code**: MIT License - Use freely in your projects
-- **Glossary Data** (`siemens_acronyms.json`): CC BY 4.0 - Share and adapt with attribution
+- **Source Code**: MIT License - Use freely in your projects
+- **Glossary Data**: CC BY 4.0 - Share and adapt with attribution
 
 This dual licensing allows both internal Siemens use and external contributions.
 
@@ -472,7 +496,7 @@ This dual licensing allows both internal Siemens use and external contributions.
 ## 📞 Support
 
 For issues or questions:
-1. Check the [Issues](https://github.com/your-repo/issues) page
+1. Check the [Issues](https://github.com/dzivkovi/siemens-acronyms-mcp/issues) page
 2. Review test files for usage examples
 3. Consult `CLAUDE.md` for AI assistant guidance
 
