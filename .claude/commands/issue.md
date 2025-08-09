@@ -39,4 +39,16 @@ Follow these steps to complete the task, make a todo list and think ultrahard:
 
 Remember to think carefully about the feature description and how to best present it as a GitHub issue. Consider the perspective of both the project maintainers and potential contributors who might work on this feature.
 
-Your final output should consist of only the content within the `<github_issue>` tags, ready to be copied and pasted directly into GitHub. Make sure to use the GitHub CLI `gh issue create` to create the actual issue after you generate. Assign either the label `bug` or `enhancement` based on the nature of the issue.
+Your final output should consist of only the content within the `<github_issue>` tags, ready to be copied and pasted directly into GitHub. 
+
+After drafting the issue content, create it using `gh issue create`:
+
+**Issue Creation Guidelines:**
+
+1. **Check available labels first**: Run `gh label list` and select the most appropriate label that actually exists. If the label fails to apply, retry without it.
+
+2. **Add to project board if one exists**: After creating the issue, check for user's projects and add the issue to the first/most active one. Set initial status to "Todo" or "Backlog" (whichever exists).
+
+3. **Handle failures gracefully**: If any step fails (label not found, project operations), continue without interrupting the user.
+
+**Remember**: Make intelligent choices based on what's actually available in the repository. Never hardcode values.
