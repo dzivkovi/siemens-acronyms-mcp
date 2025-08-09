@@ -15,6 +15,11 @@ Siemens Acronyms MCP Server - A glossary service exposing Siemens-specific termi
 - `uvicorn src.main:app --reload` - Start development server (port 8000)
 - `uvicorn src.main:app --reload --port 8001` - Start on alternate port
 
+### Code Quality
+- `ruff format .` - Format code (120 char line length)
+- `ruff check . --fix` - Fix linting issues automatically
+- `ruff check .` - Check for linting issues without fixing
+
 ### Environment Setup
 - `python -m venv venv && source venv/bin/activate` - Create/activate virtual environment
 - `pip install -r requirements.txt` - Install dependencies
@@ -65,7 +70,7 @@ The application follows a layered architecture with clear separation of concerns
 
 ### Python Style
 - Type hints for ALL function parameters and returns
-- PEP 8 with 88-character line limit (Black formatter compatible)
+- PEP 8 with 120-character line limit (configured in ruff)
 - Docstrings for public functions (Google style)
 - Async/await for I/O operations
 
