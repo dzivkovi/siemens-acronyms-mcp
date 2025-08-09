@@ -8,7 +8,11 @@
    cd siemens-acronyms-mcp
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
+   python -m pip install --upgrade pip  # Important: upgrade pip first!
    pip install -r requirements.txt
+   
+   # Optional: Load useful aliases
+   source scripts/aliases.sh
    ```
 
 2. **Configure environment**

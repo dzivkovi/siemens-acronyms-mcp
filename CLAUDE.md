@@ -21,9 +21,13 @@ Siemens Acronyms MCP Server - A glossary service exposing Siemens-specific termi
 - `ruff check .` - Check for linting issues without fixing
 
 ### Environment Setup
-- `python -m venv venv && source venv/bin/activate` - Create/activate virtual environment
+- `python -m venv venv` - Create virtual environment
+- `source venv/bin/activate` - Activate virtual environment (Windows: `venv\Scripts\activate`)
+- `python -m pip install --upgrade pip` - Upgrade pip (IMPORTANT: do this first!)
 - `pip install -r requirements.txt` - Install dependencies
 - `cp .env.example .env` - Create environment file (edit with API keys)
+
+Tip: Use `source scripts/aliases.sh` for convenient shortcuts (mkv, va, vp)
 
 ## Architecture
 
@@ -105,6 +109,18 @@ The service automatically reloads acronyms when `siemens_acronyms.json` changes.
 
 ### Fuzzy Matching
 Uses RapidFuzz with configurable threshold (default 80% similarity) to handle typos and partial matches.
+
+## Important Rules
+
+### Git Commit Guidelines
+- **NEVER use `git add` or `git commit` without explicit user request**
+- **NEVER sign commits or changes as Claude/AI** - use standard git authorship only
+- Only commit when user explicitly asks: "commit this", "git add", "create a commit", etc.
+- Default behavior: Make changes but DO NOT stage or commit them
+
+### Content Guidelines
+- **NEVER use emojis in any files or documentation unless explicitly requested by the User**
+- Keep all content professional and emoji-free by default
 
 ## Current State Notes
 
