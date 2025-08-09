@@ -1,0 +1,19 @@
+blank_issues_enabled: false
+issue_templates:
+  - name: Epic (PRD)
+    description: High-level capability with KPI & risks
+    title: "[EPIC] "
+    labels: ["epic"]
+    body: epic.md
+
+  - name: Story
+    description: Small user-visible slice
+    title: "[Story] "
+    labels: ["story"]
+    body: story.md
+
+  - name: Infra / Chore
+    description: Build, CI, refactor tasks
+    title: "[Chore] "
+    labels: ["infra"]
+    body: infra.md

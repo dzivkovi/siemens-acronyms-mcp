@@ -1,0 +1,35 @@
+{
+  "acronyms": [
+    {
+      "term": "EDA",
+      "full_name": "Electronic Design Automation",
+      "category": "Acronym",
+      "description": "IC design, PCB design, and electronic systems design tools",
+      "url": "https://eda.sw.siemens.com/en-US/",
+      "division": "DISW",
+      "formerly": "Mentor Graphics (acquired 2016)",
+      "products": ["Calibre", "Tessent", "Xpedition", "PADS"],
+      "related": ["ECAD", "PCB", "IC"]
+    },
+    {
+      "term": "DISW",
+      "full_name": "Digital Industries Software",
+      "category": "Acronym",
+      "description": "Unified business unit for all Siemens industrial software",
+      "division": "DISW",
+      "metadata": {
+        "formed": "2019",
+        "includes": ["PLM", "EDA", "MOM", "IoT", "Low-Code"]
+      }
+    },
+    {
+      "term": "Teamcenter",
+      "category": "Product",
+      "description": "Product Lifecycle Management platform",
+      "url": "https://plm.sw.siemens.com/en-US/teamcenter/",
+      "division": "PLM",
+      "formerly": "TeamCenter (note spelling change)",
+      "related": ["PDM", "BOM", "CAD data management"]
+    }
+  ]
+}

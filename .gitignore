@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.env
+.venv
+
+# IDE
+.vscode/*
+!.vscode/mcp.json
+.idea/
+*.swp
+*.swo
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Claude Code
+CLAUDE.local.md
+.claude/settings.local.json
+
+# work folders
+work/
+data/
+
+# temporary conversation files
+analysis/**/2025-*/
+analysis/**/archive/
+
+# starter design docs (later moved to analysis/<issue#>/DESIGN.md)
+analysis/0000/DESIGN*.md
