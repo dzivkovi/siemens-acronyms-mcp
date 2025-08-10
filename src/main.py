@@ -13,7 +13,7 @@ from typing import Any, Optional
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Query, Request, status
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 from fastmcp import FastMCP
 from pydantic import BaseModel, Field
 
@@ -121,6 +121,17 @@ app.add_middleware(
 
 # OAuth discovery endpoints removed - not needed for VS Code or Claude Code
 # Both work fine with just the X-API-Key header authentication
+
+
+@app.get("/")
+async def redirect_to_docs(request: Request) -> RedirectResponse:
+    """Redirect root URL to Swagger documentation."""
+    # Preserve query parameters if present
+    query_string = request.url.query
+    redirect_url = "/docs"
+    if query_string:
+        redirect_url = f"/docs?{query_string}"
+    return RedirectResponse(url=redirect_url, status_code=status.HTTP_307_TEMPORARY_REDIRECT)
 
 
 @app.get("/health", response_model=HealthResponse)
