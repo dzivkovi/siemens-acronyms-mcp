@@ -31,6 +31,7 @@
       "Bash(git show:*)",
       "Bash(git rev-parse:*)",
       "Bash(git config:*)",
+      "Bash(git push:*)",
       "Bash(ls:*)",
       "Bash(cat:*)",
       "Bash(echo:*)",
@@ -108,8 +109,7 @@
     ],
     "deny": [
       "Bash(rm -rf:*)",
-      "Bash(sudo:*)",
-      "Bash(git push:*)"
+      "Bash(sudo:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
