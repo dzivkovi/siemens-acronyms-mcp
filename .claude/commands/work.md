@@ -100,6 +100,12 @@ PROJECT_NUM=$(gh project list --owner $REPO_OWNER --format json | jq -r '.projec
 gh project item-add $PROJECT_NUM --owner $REPO_OWNER --url "$PR_URL" 2>/dev/null && \
   echo "✓ Added to project #$PROJECT_NUM" || \
   echo "→ Add to project manually: Open PR → Right sidebar → Projects → Select project"
+
+# Return to main branch for next work
+git checkout main
+# Optional: Update main if working in a team (uncomment if needed)
+# git pull --ff-only 2>/dev/null && echo "✓ Updated main branch" || echo "✓ No updates available"
+echo "✓ Switched to main - use /work <issue_number> for next task"
 ```
 
 ### Step 9: COMPLETE - Monitor and Finish
