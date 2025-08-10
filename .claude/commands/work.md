@@ -92,9 +92,8 @@ PR_URL=$(gh pr create --title "<TYPE>: [Issue title]" --body-file .github/PULL_R
 echo "PR created: $PR_URL"
 
 # Try to add to project (auto-detect owner and project)
-# Note: This is optional - if it fails, just add via GitHub UI
+# Note: This might error due to shell substitution, but that's OK - we handle it gracefully
 REPO_OWNER=$(gh repo view --json owner --jq '.owner.login')
-# Get the first open project number (no hardcoding!)
 PROJECT_NUM=$(gh project list --owner $REPO_OWNER --format json | jq -r '.projects[] | select(.closed == false) | .number' | head -1)
 
 gh project item-add $PROJECT_NUM --owner $REPO_OWNER --url "$PR_URL" 2>/dev/null && \
