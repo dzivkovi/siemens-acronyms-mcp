@@ -84,6 +84,23 @@ async def search_acronyms(query: str) -> str:
     return json.dumps({"results": results, "query": query, "count": len(results)})
 
 
+@mcp.tool()
+async def get_health() -> str:
+    """
+    Get server health status including uptime and hostname.
+
+    Returns:
+        JSON string with health status data
+    """
+    health_data = {
+        "status": "healthy",
+        "hostname": socket.gethostname(),
+        "uptime": time.time() - APP_START_TIME,
+        "version": APP_VERSION,
+    }
+    return json.dumps(health_data)
+
+
 # Create FastAPI app
 app = FastAPI(
     title="Siemens Glossary of Acronyms API",
@@ -157,6 +174,23 @@ async def mcp_auth_middleware(request: Request, call_next):
     """Add authentication to MCP endpoints only."""
     # Only apply auth to /mcp endpoints
     if request.url.path.startswith("/mcp"):
+        # Check if this is a get_health tool call - if so, skip auth
+        try:
+            body = await request.body()
+            request._body = body  # Store body for later use
+            body_json = json.loads(body) if body else {}
+            method = body_json.get("method")
+
+            # Allow get_health tool calls without authentication
+            if method == "tools/call":
+                tool_name = body_json.get("params", {}).get("name")
+                if tool_name == "get_health":
+                    # Skip auth check for get_health
+                    response = await call_next(request)
+                    return response
+        except Exception:
+            pass  # If we can't parse the body, continue with normal auth
+
         api_key = await validate_api_key(request)
         if not api_key:
             return JSONResponse(
@@ -172,7 +206,11 @@ async def mcp_auth_middleware(request: Request, call_next):
 @app.post("/mcp")
 async def mcp_endpoint(request: Request):
     """Handle MCP protocol requests."""
-    body = await request.json()
+    # Check if body was already read by middleware
+    if hasattr(request, "_body"):
+        body = json.loads(request._body)
+    else:
+        body = await request.json()
     method = body.get("method")
     params = body.get("params", {})
     request_id = body.get("id")
@@ -182,22 +220,18 @@ async def mcp_endpoint(request: Request):
         # MCP initialization handshake
         # Use the protocol version requested by the client if supported
         requested_version = params.get("protocolVersion", "2025-06-18")
-        return JSONResponse({
-            "jsonrpc": "2.0",
-            "result": {
-                "protocolVersion": requested_version,  # Echo back the client's version
-                "capabilities": {
-                    "tools": {},
-                    "resources": {}
+        return JSONResponse(
+            {
+                "jsonrpc": "2.0",
+                "result": {
+                    "protocolVersion": requested_version,  # Echo back the client's version
+                    "capabilities": {"tools": {}, "resources": {}},
+                    "serverInfo": {"name": "siemens-acronyms", "version": APP_VERSION},
                 },
-                "serverInfo": {
-                    "name": "siemens-acronyms",
-                    "version": APP_VERSION
-                }
-            },
-            "id": request_id,
-        })
-    
+                "id": request_id,
+            }
+        )
+
     elif method == "initialized" or method == "notifications/initialized":
         # Client notification that initialization is complete
         # Notifications don't have IDs and don't require a response
@@ -206,7 +240,7 @@ async def mcp_endpoint(request: Request):
         else:
             # For notifications, return empty response
             return JSONResponse({})
-    
+
     elif method == "tools/list":
         return JSONResponse(
             {
@@ -223,7 +257,16 @@ async def mcp_endpoint(request: Request):
                                 },
                                 "required": ["query"],
                             },
-                        }
+                        },
+                        {
+                            "name": "get_health",
+                            "description": "Get server health status including uptime and hostname",
+                            "inputSchema": {
+                                "type": "object",
+                                "properties": {},
+                                "required": [],
+                            },
+                        },
                     ]
                 },
                 "id": request_id,
@@ -243,6 +286,28 @@ async def mcp_endpoint(request: Request):
                             {
                                 "type": "text",
                                 "text": json.dumps({"results": results, "query": query, "count": len(results)}),
+                            }
+                        ]
+                    },
+                    "id": request_id,
+                }
+            )
+        elif tool_name == "get_health":
+            # get_health doesn't need any arguments
+            health_data = {
+                "status": "healthy",
+                "hostname": socket.gethostname(),
+                "uptime": time.time() - APP_START_TIME,
+                "version": APP_VERSION,
+            }
+            return JSONResponse(
+                {
+                    "jsonrpc": "2.0",
+                    "result": {
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": json.dumps(health_data),
                             }
                         ]
                     },

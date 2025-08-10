@@ -123,7 +123,19 @@ curl "http://localhost:8000/api/v1/search?q=Sim"
 
 **Endpoint:** `POST /mcp`
 
-Requires `X-API-Key` header with valid API key from `GLOSSARY_API_KEYS`.
+Requires `X-API-Key` header with valid API key from `GLOSSARY_API_KEYS` (except for the `get_health` tool).
+
+**Available MCP Tools:**
+
+1. **`search_acronyms`** - Search for Siemens acronyms and terminology
+   - Parameters: `query` (string, required)
+   - Returns: Matching terms with fuzzy search support
+   - Authentication: Required
+
+2. **`get_health`** - Get server health status
+   - Parameters: None
+   - Returns: Server status, hostname, uptime, and version
+   - Authentication: Not required (public tool)
 
 ```bash
 # List available tools
@@ -132,7 +144,7 @@ curl -X POST http://localhost:8000/mcp \
   -H "Content-Type: application/json" \
   -d '{"jsonrpc": "2.0", "method": "tools/list", "id": 1}'
 
-# Search using MCP protocol
+# Search using MCP protocol (requires authentication)
 curl -X POST http://localhost:8000/mcp \
   -H "X-API-Key: sk-team-A" \
   -H "Content-Type: application/json" \
@@ -144,6 +156,19 @@ curl -X POST http://localhost:8000/mcp \
       "arguments": {"query": "DISW"}
     },
     "id": 2
+  }'
+
+# Get health status via MCP (no authentication required)
+curl -X POST http://localhost:8000/mcp \
+  -H "Content-Type: application/json" \
+  -d '{
+    "jsonrpc": "2.0",
+    "method": "tools/call",
+    "params": {
+      "name": "get_health",
+      "arguments": {}
+    },
+    "id": 3
   }'
 ```
 
