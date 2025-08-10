@@ -65,7 +65,14 @@ ruff check . --fix
 
 ### Step 7: ORGANIZE - Move Design Document
 ```bash
-mkdir -p analysis/$ARGUMENTS && mv analysis/0000/DESIGN.md analysis/$ARGUMENTS/DESIGN.md
+mkdir -p analysis/$ARGUMENTS && mv analysis/0000/DESIGN.md analysis/$ARGUMENTS/DESIGN.md && echo "✓ Design document moved to analysis/$ARGUMENTS/"
+
+# Remind user to update issue if needed
+echo ""
+echo "→ If the issue references the design doc, update it manually:"
+echo "   Change: [analysis/0000/DESIGN.md](analysis/0000/DESIGN.md)"
+echo "   To: [analysis/$ARGUMENTS/DESIGN.md](https://github.com/<OWNER>/<REPO>/blob/main/analysis/$ARGUMENTS/DESIGN.md)"
+echo "   (GitHub issues need full URLs for links to work)"
 ```
 
 ### Step 8: PR - Create Pull Request
