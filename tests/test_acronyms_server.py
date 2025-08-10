@@ -337,6 +337,174 @@ class TestHealthEndpoint:
         assert data["uptime"] >= 0
 
 
+class TestMCPHealthTool:
+    """Tests for MCP health check tool"""
+
+    @patch.dict(os.environ, {"GLOSSARY_API_KEYS": "sk-test-123"})
+    def test_mcp_health_tool_in_list(self):
+        """Test that get_health tool appears in tools/list"""
+        from src.main import app
+
+        client = TestClient(app)
+        headers = {"X-API-Key": "sk-test-123"}
+        response = client.post("/mcp", json={"jsonrpc": "2.0", "method": "tools/list", "id": 1}, headers=headers)
+        data = response.json()
+        assert "result" in data
+        tools = data["result"]["tools"]
+        # Should have both search_acronyms and get_health tools
+        tool_names = [tool["name"] for tool in tools]
+        assert "get_health" in tool_names
+
+        # Check get_health tool schema
+        health_tool = next((t for t in tools if t["name"] == "get_health"), None)
+        assert health_tool is not None
+        assert "description" in health_tool
+        assert "inputSchema" in health_tool
+        # Should have no required parameters
+        assert health_tool["inputSchema"]["required"] == []
+
+    def test_mcp_health_without_auth(self):
+        """Test that get_health tool works without API key"""
+        from src.main import app
+
+        client = TestClient(app)
+        # No API key header
+        response = client.post(
+            "/mcp",
+            json={
+                "jsonrpc": "2.0",
+                "method": "tools/call",
+                "params": {"name": "get_health", "arguments": {}},
+                "id": 1,
+            },
+        )
+        assert response.status_code == status.HTTP_200_OK
+        data = response.json()
+        assert "result" in data
+        assert "content" in data["result"]
+
+        # Parse the health data
+        health_text = data["result"]["content"][0]["text"]
+        health_data = json.loads(health_text)
+        assert "status" in health_data
+        assert health_data["status"] == "healthy"
+
+    @patch.dict(os.environ, {"GLOSSARY_API_KEYS": "sk-test-123"})
+    def test_mcp_health_with_auth(self):
+        """Test that get_health tool also works with API key"""
+        from src.main import app
+
+        client = TestClient(app)
+        headers = {"X-API-Key": "sk-test-123"}
+        response = client.post(
+            "/mcp",
+            json={
+                "jsonrpc": "2.0",
+                "method": "tools/call",
+                "params": {"name": "get_health", "arguments": {}},
+                "id": 1,
+            },
+            headers=headers,
+        )
+        assert response.status_code == status.HTTP_200_OK
+        data = response.json()
+        assert "result" in data
+
+    def test_mcp_health_response_fields(self):
+        """Test that get_health returns all required fields"""
+        from src.main import app
+
+        client = TestClient(app)
+        response = client.post(
+            "/mcp",
+            json={
+                "jsonrpc": "2.0",
+                "method": "tools/call",
+                "params": {"name": "get_health", "arguments": {}},
+                "id": 1,
+            },
+        )
+        data = response.json()
+        health_text = data["result"]["content"][0]["text"]
+        health_data = json.loads(health_text)
+
+        # All required fields should be present
+        assert "status" in health_data
+        assert "hostname" in health_data
+        assert "uptime" in health_data
+        assert "version" in health_data
+
+        # Check field types
+        assert health_data["status"] == "healthy"
+        assert isinstance(health_data["hostname"], str)
+        assert isinstance(health_data["uptime"], (int, float))
+        assert isinstance(health_data["version"], str)
+
+    def test_mcp_health_uptime_increases(self):
+        """Test that uptime increases between calls"""
+        from src.main import app
+
+        client = TestClient(app)
+
+        # First call
+        response1 = client.post(
+            "/mcp",
+            json={
+                "jsonrpc": "2.0",
+                "method": "tools/call",
+                "params": {"name": "get_health", "arguments": {}},
+                "id": 1,
+            },
+        )
+        data1 = response1.json()
+        health_text1 = data1["result"]["content"][0]["text"]
+        health_data1 = json.loads(health_text1)
+        uptime1 = health_data1["uptime"]
+
+        # Wait a bit
+        time.sleep(0.1)
+
+        # Second call
+        response2 = client.post(
+            "/mcp",
+            json={
+                "jsonrpc": "2.0",
+                "method": "tools/call",
+                "params": {"name": "get_health", "arguments": {}},
+                "id": 2,
+            },
+        )
+        data2 = response2.json()
+        health_text2 = data2["result"]["content"][0]["text"]
+        health_data2 = json.loads(health_text2)
+        uptime2 = health_data2["uptime"]
+
+        # Uptime should have increased
+        assert uptime2 > uptime1
+
+    def test_mcp_health_with_extra_params(self):
+        """Test that get_health ignores extra parameters"""
+        from src.main import app
+
+        client = TestClient(app)
+        response = client.post(
+            "/mcp",
+            json={
+                "jsonrpc": "2.0",
+                "method": "tools/call",
+                "params": {"name": "get_health", "arguments": {"extra": "param", "unused": 123}},
+                "id": 1,
+            },
+        )
+        assert response.status_code == status.HTTP_200_OK
+        data = response.json()
+        assert "result" in data
+        # Should still return valid health data
+        health_text = data["result"]["content"][0]["text"]
+        health_data = json.loads(health_text)
+        assert health_data["status"] == "healthy"
+
+
 class TestSwaggerUI:
     """Tests for Swagger UI documentation"""
 
