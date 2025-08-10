@@ -505,6 +505,61 @@ class TestMCPHealthTool:
         assert health_data["status"] == "healthy"
 
 
+class TestRootRedirect:
+    """Tests for root URL redirect to /docs"""
+
+    def test_root_redirects_to_docs(self):
+        """Test that visiting / redirects to /docs"""
+        from src.main import app
+
+        client = TestClient(app, follow_redirects=False)
+        response = client.get("/")
+        # Should redirect with 307 status
+        assert response.status_code == status.HTTP_307_TEMPORARY_REDIRECT
+        # Check redirect location
+        assert response.headers["location"] == "/docs"
+
+    def test_root_redirect_preserves_query_params(self):
+        """Test that query parameters are preserved during redirect"""
+        from src.main import app
+
+        client = TestClient(app, follow_redirects=False)
+        response = client.get("/?param1=value1&param2=value2")
+        assert response.status_code == status.HTTP_307_TEMPORARY_REDIRECT
+        # Query params should be preserved in redirect
+        assert response.headers["location"] == "/docs?param1=value1&param2=value2"
+
+    def test_docs_still_accessible_directly(self):
+        """Test that /docs is still directly accessible"""
+        from src.main import app
+
+        client = TestClient(app)
+        response = client.get("/docs")
+        assert response.status_code == status.HTTP_200_OK
+        assert "swagger" in response.text.lower() or "openapi" in response.text.lower()
+
+    def test_root_redirect_follows_to_docs(self):
+        """Test that following the redirect leads to /docs"""
+        from src.main import app
+
+        client = TestClient(app, follow_redirects=True)
+        response = client.get("/")
+        assert response.status_code == status.HTTP_200_OK
+        # Should end up at /docs with Swagger UI content
+        assert "swagger" in response.text.lower() or "openapi" in response.text.lower()
+
+    def test_no_redirect_loops(self):
+        """Test that there are no redirect loops"""
+        from src.main import app
+
+        client = TestClient(app, follow_redirects=True)
+        # This should not cause infinite redirects
+        response = client.get("/")
+        assert response.status_code == status.HTTP_200_OK
+        # Check that we end up at /docs, not in a loop
+        assert response.url.path == "/docs"
+
+
 class TestSwaggerUI:
     """Tests for Swagger UI documentation"""
 
