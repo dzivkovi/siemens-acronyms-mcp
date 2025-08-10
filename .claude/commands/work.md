@@ -7,6 +7,8 @@ $ARGUMENTS
 
 ## Workflow
 
+**Note:** If work was interrupted, use `/resume` command to check state and continue.
+
 ### 1. Analyze Issue
 ```bash
 # If ARGUMENTS is issue number: gh issue view $ARGUMENTS
@@ -67,9 +69,9 @@ mkdir -p analysis/$ARGUMENTS && mv analysis/0000/DESIGN.md analysis/$ARGUMENTS/D
 ```
 
 ### 8. Create Pull Request
-9.1 Show the proposed commit message
-9.2 ⚠️ STOP: Ask user for review before committing
-9.3 Wait for explicit approval: "Ready to commit and create PR?"
+8.1 Show the proposed commit message
+8.2 ⚠️ STOP: Ask user for review before committing
+8.3 Wait for explicit approval: "Ready to commit and create PR?"
 
 ```bash
 # Use appropriate work type prefix: feat|fix|docs|chore
@@ -85,9 +87,25 @@ Closes #$ISSUE_NUMBER"
 
 git push -u origin <TYPE>/$ISSUE_NUMBER-description
 
-# Create PR using template
-gh pr create --title "<TYPE>: [Issue title]" --body-file .github/PULL_REQUEST_TEMPLATE.md
+# Create PR and capture the URL
+PR_URL=$(gh pr create --title "<TYPE>: [Issue title]" --body-file .github/PULL_REQUEST_TEMPLATE.md)
+echo "PR created: $PR_URL"
+
+# Try to add to project (auto-detect owner and project)
+# Note: This is optional - if it fails, just add via GitHub UI
+REPO_OWNER=$(gh repo view --json owner --jq '.owner.login')
+# Get the first open project number (no hardcoding!)
+PROJECT_NUM=$(gh project list --owner $REPO_OWNER --format json | jq -r '.projects[] | select(.closed == false) | .number' | head -1)
+
+gh project item-add $PROJECT_NUM --owner $REPO_OWNER --url "$PR_URL" 2>/dev/null && \
+  echo "✓ Added to project #$PROJECT_NUM" || \
+  echo "→ Add to project manually: Open PR → Right sidebar → Projects → Select project"
 ```
+
+### 9. Done!
+The PR is created and should be added to the project. 
+- If project addition failed, open the PR and add it via the right sidebar
+- Monitor CI checks and review feedback
 
 ## Key Principles for This Project
 
