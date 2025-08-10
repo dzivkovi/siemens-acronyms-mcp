@@ -72,18 +72,7 @@
       "Bash(CURRENT_DATE=*)",
       "Bash(CLAUDE_DEBUG=1 claude mcp list)",
       "Bash(claude -p \"Using the siemens-acronyms MCP server, *)",
-      "Bash(gh issue:*)",
-      "Bash(gh label:*)",
-      "Bash(gh project:*)",
-      "Bash(gh api:*)",
-      "Bash(gh pr:*)",
-      "Bash(gh repo:*)",
-      "Bash(gh auth:*)",
-      "Bash(gh config:*)",
-      "Bash(gh release:*)",
-      "Bash(gh workflow:*)",
-      "Bash(gh run:*)",
-      "Bash(gh gist:*)",
+      "Bash(gh *)",
       "WebFetch(domain:github.com)",
       "WebFetch(domain:docs.anthropic.com)",
       "WebFetch(domain:www.anthropic.com)",
@@ -110,7 +99,12 @@
     ],
     "deny": [
       "Bash(rm -rf:*)",
-      "Bash(sudo:*)"
+      "Bash(sudo:*)",
+      "Bash(gh repo delete:*)",
+      "Bash(gh project delete:*)",
+      "Bash(gh release delete:*)",
+      "Bash(gh secret:*)",
+      "Bash(gh auth token:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
