@@ -9,7 +9,7 @@ $ARGUMENTS
 
 **Note:** If work was interrupted, use `/resume` command to check state and continue.
 
-### 1. Analyze Issue
+### Step 1: ANALYZE - Understand the Issue
 ```bash
 # If ARGUMENTS is issue number: gh issue view $ARGUMENTS
 # If ARGUMENTS is description: search for related issue first
@@ -18,7 +18,7 @@ gh issue view $ARGUMENTS --comments
 - Understand the problem and requirements
 - Read all comments for important updates/corrections
 
-### 2. Create Work Branch
+### Step 2: BRANCH - Create Feature Branch
 ```bash
 # Determine work type based on issue (feat|fix|docs|chore)
 # Use issue number and brief description for branch name
@@ -34,26 +34,26 @@ git checkout -b <TYPE>/$ARGUMENTS-brief-description
 - Keep description brief but descriptive
 - Branch created before any implementation work begins
 
-### 3. Research Codebase
+### Step 3: RESEARCH - Understand Codebase
 - Read CLAUDE.md for project context and commands
 - **Check for design document**: Read `analysis/$ARGUMENTS/DESIGN.md` if it exists
 - Search for relevant files using available tools
 - Understand existing patterns and conventions
 - Use Context7 MCP to get the most recent documentation
 
-### 4. Write Failing Tests First (Evaluation-First)
+### Step 4: TEST - Write Failing Tests First
 **Critical:** Tests define success. Implementation serves tests.
 - Write tests that demonstrate the required capability
 - Ensure tests fail initially (proves they're testing the right thing)
 - Include edge cases and performance requirements
 - For AI features: Plan to run tests 5+ times to catch nondeterminism
 
-### 5. Implement Minimal Solution
+### Step 5: CODE - Implement Minimal Solution
 - Follow existing code patterns and conventions
 - Use project libraries and tools (ruff for linting, pytest for testing)
 - Implement only what's needed to pass the tests
 
-### 6. Validation
+### Step 6: VALIDATE - Run Quality Checks
 ```bash
 # Run tests multiple times (catch AI nondeterminism)
 pytest -v
@@ -63,12 +63,12 @@ ruff format .
 ruff check . --fix
 ```
 
-### 7. DESIGN.md Handoff
+### Step 7: ORGANIZE - Move Design Document
 ```bash
 mkdir -p analysis/$ARGUMENTS && mv analysis/0000/DESIGN.md analysis/$ARGUMENTS/DESIGN.md
 ```
 
-### 8. Create Pull Request
+### Step 8: PR - Create Pull Request
 8.1 Show the proposed commit message
 8.2 ⚠️ STOP: Ask user for review before committing
 8.3 Wait for explicit approval: "Ready to commit and create PR?"
@@ -102,7 +102,7 @@ gh project item-add $PROJECT_NUM --owner $REPO_OWNER --url "$PR_URL" 2>/dev/null
   echo "→ Add to project manually: Open PR → Right sidebar → Projects → Select project"
 ```
 
-### 9. Done!
+### Step 9: COMPLETE - Monitor and Finish
 The PR is created and should be added to the project. 
 - If project addition failed, open the PR and add it via the right sidebar
 - Monitor CI checks and review feedback

@@ -1,5 +1,12 @@
 Check the current state of interrupted /work and continue from where we left off.
 
+## First: Load Work Context
+
+Always read the `/work` command to understand the full workflow and what each step involves:
+```bash
+cat .claude/commands/work.md
+```
+
 ## State Detection
 
 ```bash
@@ -12,6 +19,8 @@ ISSUE_NUM=$(echo $BRANCH | grep -oE '[0-9]+' | head -1)
 if [ -n "$ISSUE_NUM" ]; then
   echo "Working on issue: #$ISSUE_NUM"
   gh issue view $ISSUE_NUM --comments | head -20
+else
+  echo "No issue detected. Specify issue number or use /work to start new work."
 fi
 
 # 2. Git status
@@ -45,11 +54,20 @@ fi
 
 ## Resume Decision
 
-Based on the above status:
+Based on the above status, continue at the appropriate step from `/work` workflow:
 
-1. **If uncommitted changes**: Continue with implementation or testing
-2. **If tests failing**: Fix the failing tests
-3. **If all tests pass + no PR**: Ready to create PR (go to step 8 of /work)
-4. **If PR exists**: Check if it needs project assignment or review
+1. **If uncommitted changes exist**:
+   - Tests failing → Continue at **Step 4: TEST** or **Step 5: CODE**
+   - Tests passing → Continue at **Step 6: VALIDATE**
 
-Continue with the appropriate step from the `/work` command workflow.
+2. **If all clean (no uncommitted changes)**:
+   - No PR exists → Continue at **Step 8: PR**
+   - PR exists → Continue at **Step 9: COMPLETE**
+
+3. **If on main branch**: 
+   - Check for issue to work on → Start at **Step 1: ANALYZE**
+
+4. **If DESIGN.md exists in analysis/0000/**:
+   - Move it to numbered folder → Execute **Step 7: ORGANIZE**
+
+Reference the specific step details from `/work.md` that you loaded above.
