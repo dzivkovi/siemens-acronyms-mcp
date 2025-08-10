@@ -1,18 +1,11 @@
 {
-  "mcpServers": {
+  "servers": {
     "siemens-acronyms": {
       "type": "http",
       "url": "http://localhost:8000/mcp",
-      "env": {
-        "GLOSSARY_API_KEY": "${input:api-key}"
-      },
-      "inputs": [{
-        "id": "api-key",
-        "type": "promptString",
-        "description": "Enter your Siemens Acronyms API key",
-        "default": "sk-team-A",
-        "password": true
-      }]
+      "headers": {
+        "X-API-Key": "sk-team-A"
+      }
     }
   }
 }
