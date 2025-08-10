@@ -2,6 +2,16 @@
 
 A glossary service exposing Siemens-specific terminology via REST API and MCP (Model Context Protocol) endpoints. This demonstrates how to add MCP capabilities to existing internal APIs, making institutional knowledge accessible to AI assistants and development tools.
 
+## 📚 Dual Purpose Project
+
+This repository serves two audiences:
+
+**1. MCP Server Example** - For developers adding MCP to existing REST APIs without separate server binaries  
+**2. Compound Engineering Scaffold** - For developers adopting AI-assisted workflows
+
+🎬 **Watch the workflow**: [Compound Engineering with Claude Code](https://www.youtube.com/watch?v=ZVvW7PvVnnk) (15 min)  
+📋 **Fork the scaffold**: See [SCAFFOLD_NOTES.md](./SCAFFOLD_NOTES.md) for reusing this structure
+
 ## 🎯 See It In Action
 
 ![MCP Server working in both Claude Code CLI and VS Code GitHub Copilot](./assets/MCP_demo_in_Claude_Code_and_GitHub_Copilot.png)
