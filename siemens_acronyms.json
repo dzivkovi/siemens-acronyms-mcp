@@ -8,8 +8,19 @@
       "url": "https://eda.sw.siemens.com/en-US/",
       "division": "DISW",
       "formerly": "Mentor Graphics (acquired 2016)",
-      "products": ["Calibre", "Tessent", "Xpedition", "PADS"],
-      "related": ["ECAD", "PCB", "IC"]
+      "products": [
+        "Calibre",
+        "Tessent",
+        "Xpedition",
+        "PADS",
+        "Hyperlynx"
+      ],
+      "related": [
+        "ECAD",
+        "PCB",
+        "IC",
+        "Siemens EDA"
+      ]
     },
     {
       "term": "DISW",
@@ -19,7 +30,13 @@
       "division": "DISW",
       "metadata": {
         "formed": "2019",
-        "includes": ["PLM", "EDA", "MOM", "IoT", "Low-Code"]
+        "includes": [
+          "PLM",
+          "EDA",
+          "MOM",
+          "IoT",
+          "Low-Code"
+        ]
       }
     },
     {
@@ -29,7 +46,62 @@
       "url": "https://plm.sw.siemens.com/en-US/teamcenter/",
       "division": "PLM",
       "formerly": "TeamCenter (note spelling change)",
-      "related": ["PDM", "BOM", "CAD data management"]
+      "related": [
+        "PDM",
+        "BOM",
+        "CAD data management"
+      ]
+    },
+    {
+      "term": "NX",
+      "full_name": "Siemens NX",
+      "category": "Product",
+      "description": "Advanced CAD/CAM/CAE software",
+      "url": "https://plm.sw.siemens.com/en-US/nx/",
+      "division": "PLM",
+      "formerly": "Unigraphics NX",
+      "metadata": {
+        "acquired": "2007 from UGS"
+      }
+    },
+    {
+      "term": "Simcenter",
+      "category": "Product",
+      "description": "Simulation and test solutions portfolio",
+      "url": "https://plm.sw.siemens.com/en-US/simcenter/",
+      "division": "PLM",
+      "products": [
+        "Simcenter 3D",
+        "Simcenter Amesim",
+        "Simcenter STAR-CCM+"
+      ],
+      "related": [
+        "CAE",
+        "Simulation",
+        "Digital Twin"
+      ]
+    },
+    {
+      "term": "Opcenter",
+      "category": "Product",
+      "description": "Manufacturing execution system (MES) software portfolio",
+      "url": "https://plm.sw.siemens.com/en-US/opcenter/",
+      "division": "MOM",
+      "formerly": "SIMATIC IT and Camstar Systems",
+      "metadata": {
+        "consolidation_year": "2018"
+      }
+    },
+    {
+      "term": "Digital Twin",
+      "category": "Technology",
+      "description": "Virtual representation of physical product or process",
+      "url": "https://www.sw.siemens.com/en-US/digital-twin/",
+      "related": [
+        "Xcelerator",
+        "PLM",
+        "Simulation"
+      ]
     }
   ]
 }
