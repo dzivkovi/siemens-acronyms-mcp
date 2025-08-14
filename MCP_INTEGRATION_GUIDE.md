@@ -1,8 +1,39 @@
 # MCP Integration Guide: Add AI Assistant Access to Your REST API
 
+## Quick Start: One-Shot Design Document
+
+For a comprehensive, single-pass implementation guide, see [docs/MCP_DESIGN.md](docs/MCP_DESIGN.md). This document provides everything needed to add MCP to any FastAPI application in one go.
+
+### Using with GitHub Issues Workflow
+
+If you're following our "GitHub Issues + /issue + /work cloud commands" development workflow:
+
+1. **Copy the design to your analysis folder:**
+   ```bash
+   mkdir -p analysis/0000
+   cp docs/MCP_DESIGN.md analysis/0000/DESIGN.md
+   ```
+
+2. **Create the GitHub issue:**
+   ```
+   /issue "Add MCP Server (HTTP transport) to existing FastAPI application"
+   ```
+
+3. **Start implementation:**
+   ```
+   /work 1  # or the issue number created
+   ```
+
+The design document will guide you through:
+- Adding MCP endpoint at `/mcp`
+- Implementing HTTP transport within the same application
+- Setting up API key authentication
+- Auto-discovering `/health` and business routes
+- Complete testing and client configuration
+
 ## What We Built
 
-We added MCP (Model Context Protocol) support to an existing FastAPI REST API, enabling it to work with AI assistants like Claude Code and VS Code Copilot. This guide shows the exact patterns we used.
+We added MCP (Model Context Protocol) support to an existing FastAPI REST API, enabling it to work with AI assistants like Claude Code and VS Code Copilot. This guide shows the exact patterns we used from our implementation.
 
 ## The Architecture Pattern
 
