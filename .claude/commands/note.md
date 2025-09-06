@@ -15,14 +15,18 @@ Examples:
 - `/note (AI extraction conversation)` → Save content about AI extraction conversation
 - `/note (summary of GraphRAG implementation)` → Save summary of GraphRAG work
 
-### CRITICAL: Run this SINGLE command that does EVERYTHING:
-```bash
-ANALYSIS_DIR="analysis/$(date +%Y-%m-%d)" && mkdir -p "$ANALYSIS_DIR" && echo "SAVE YOUR FILE TO: $ANALYSIS_DIR/01-meaningful-name.md"
-```
+### CRITICAL: I'll run commands to find your next file number:
+The /note command will automatically:
+1. Create today's analysis directory
+2. Check what numbered files already exist  
+3. Show you the template path with NN to replace
+
+Just use `/note` and I'll handle the directory checking for you.
 
 This command will:
 1. Create the correct date folder (e.g., analysis/2025-07-21)
-2. Tell you EXACTLY where to save the file
+2. Show you what numbered files already exist
+3. Tell you to pick the next number (NN) and replace meaningful-name
 
 ### IMPORTANT: Copy the exact path shown in the output and use it for the Write command!
 
