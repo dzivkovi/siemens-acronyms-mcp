@@ -130,7 +130,7 @@ async def mcp_auth_middleware(request: Request, call_next):
         
         # Check API key for other requests
         api_key = request.headers.get("X-API-Key")
-        allowed_keys = os.getenv("GLOSSARY_API_KEYS", "").split(",")
+        allowed_keys = os.getenv("MCP_API_KEYS", "").split(",")
         allowed_keys = [key.strip() for key in allowed_keys if key.strip()]
         
         if api_key not in allowed_keys:
@@ -277,7 +277,7 @@ class TestMCPHealthTool:
         )
         assert response.status_code == status.HTTP_200_OK
         
-    @patch.dict(os.environ, {"GLOSSARY_API_KEYS": "sk-test-123"})
+    @patch.dict(os.environ, {"MCP_API_KEYS": "sk-test-123"})
     def test_mcp_health_tool_in_list(self):
         """Test that get_health tool appears in tools/list"""
         # Test with authentication for protected endpoints
@@ -334,7 +334,7 @@ Add to `.claude/settings.json`:
 
 ```env
 # API keys for MCP authentication (comma-separated)
-GLOSSARY_API_KEYS=sk-team-A,sk-team-B,sk-team-C
+MCP_API_KEYS=sk-team-A,sk-team-B,sk-team-C
 
 # Optional configuration
 LOG_LEVEL=INFO

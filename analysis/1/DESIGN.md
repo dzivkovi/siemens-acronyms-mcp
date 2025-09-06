@@ -54,7 +54,7 @@ Data Layer
 
 ### Key Components
 1. **FastMCP Integration**: Use `@mcp.tool` decorator to expose search function
-2. **Authentication**: Environment variable `GLOSSARY_API_KEYS` with comma-separated keys
+2. **Authentication**: Environment variable `MCP_API_KEYS` with comma-separated keys
 3. **Search Algorithm**: Exact match (100) → Fuzzy match (>80) → Partial match (>60)
 4. **File Watching**: Check file mtime on each request, reload if changed
 
@@ -79,7 +79,7 @@ Data Layer
 1. **Project Setup**
    - Create project directory `siemens_acronyms_server`
    - Initialize with `requirements.txt`: fastapi, fastmcp, rapidfuzz, python-dotenv, uvicorn, pytest
-   - Create `.env` file with `GLOSSARY_API_KEYS=sk-team-A,sk-team-B,sk-Daniel`
+   - Create `.env` file with `MCP_API_KEYS=sk-team-A,sk-team-B,sk-Daniel`
 
 2. **Test Suite First (test_acronyms_server.py)**
    - Write all acceptance criteria as pytest tests

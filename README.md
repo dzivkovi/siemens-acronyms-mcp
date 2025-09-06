@@ -57,7 +57,7 @@ This repository serves two audiences:
    Edit `.env` and add your API keys:
    ```env
    # Comma-separated list of API keys for MCP endpoint authentication
-   GLOSSARY_API_KEYS=sk-team-A,sk-team-B,sk-Daniel
+   MCP_API_KEYS=sk-team-A,sk-team-B,sk-Daniel
    
    # Optional: Custom path to acronyms file
    # GLOSSARY_FILE_PATH=siemens_acronyms.json
@@ -133,7 +133,7 @@ curl "http://localhost:8000/api/v1/search?q=Sim"
 
 **Endpoint:** `POST /mcp`
 
-Requires `X-API-Key` header with valid API key from `GLOSSARY_API_KEYS` (except for the `get_health` tool).
+Requires `X-API-Key` header with valid API key from `MCP_API_KEYS` (except for the `get_health` tool).
 
 **Available MCP Tools:**
 
@@ -477,7 +477,7 @@ pytest -v
 
 | Variable | Description | Default | Required |
 |----------|-------------|---------|----------|
-| `GLOSSARY_API_KEYS` | Comma-separated API keys for MCP auth | - | Yes (for MCP) |
+| `MCP_API_KEYS` | Comma-separated API keys for MCP auth | - | Yes (for MCP) |
 | `GLOSSARY_FILE_PATH` | Path to acronyms JSON file | `siemens_acronyms.json` | No |
 | `LOG_LEVEL` | Logging level | `INFO` | No |
 
@@ -513,7 +513,7 @@ This dual licensing allows both internal Siemens use and external contributions.
 ### MCP endpoint returns 401
 - Verify API key in `.env` file
 - Check `X-API-Key` header in request
-- Ensure no spaces in `GLOSSARY_API_KEYS` value
+- Ensure no spaces in `MCP_API_KEYS` value
 
 ### Search returns no results
 - Check `siemens_acronyms.json` file exists and is valid JSON

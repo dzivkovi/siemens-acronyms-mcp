@@ -102,7 +102,7 @@ class TestMCPEndpoint:
         response = client.post("/mcp", json={"jsonrpc": "2.0", "method": "tools/list", "id": 1}, headers=headers)
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
-    @patch.dict(os.environ, {"GLOSSARY_API_KEYS": "sk-test-123,sk-team-A"})
+    @patch.dict(os.environ, {"MCP_API_KEYS": "sk-test-123,sk-team-A"})
     def test_mcp_with_valid_api_key_succeeds(self):
         """Test that valid API key allows access"""
         from src.main import app
@@ -112,7 +112,7 @@ class TestMCPEndpoint:
         response = client.post("/mcp", json={"jsonrpc": "2.0", "method": "tools/list", "id": 1}, headers=headers)
         assert response.status_code == status.HTTP_200_OK
 
-    @patch.dict(os.environ, {"GLOSSARY_API_KEYS": "sk-team-A,sk-team-B,sk-Daniel"})
+    @patch.dict(os.environ, {"MCP_API_KEYS": "sk-team-A,sk-team-B,sk-Daniel"})
     def test_mcp_multiple_api_keys_support(self):
         """Test that multiple API keys are supported"""
         from src.main import app
@@ -134,7 +134,7 @@ class TestMCPEndpoint:
         response = client.post("/mcp", json={"jsonrpc": "2.0", "method": "tools/list", "id": 1}, headers=headers)
         assert response.status_code == status.HTTP_200_OK
 
-    @patch.dict(os.environ, {"GLOSSARY_API_KEYS": "sk-test-123"})
+    @patch.dict(os.environ, {"MCP_API_KEYS": "sk-test-123"})
     def test_mcp_search_tool_exists(self):
         """Test that MCP exposes a search tool"""
         from src.main import app
@@ -147,7 +147,7 @@ class TestMCPEndpoint:
         tools = data["result"]["tools"]
         assert any("search" in tool["name"].lower() for tool in tools)
 
-    @patch.dict(os.environ, {"GLOSSARY_API_KEYS": "sk-test-123"})
+    @patch.dict(os.environ, {"MCP_API_KEYS": "sk-test-123"})
     def test_mcp_search_for_disw(self):
         """Test MCP search for DISW returns Digital Industries Software"""
         from src.main import app
@@ -340,7 +340,7 @@ class TestHealthEndpoint:
 class TestMCPHealthTool:
     """Tests for MCP health check tool"""
 
-    @patch.dict(os.environ, {"GLOSSARY_API_KEYS": "sk-test-123"})
+    @patch.dict(os.environ, {"MCP_API_KEYS": "sk-test-123"})
     def test_mcp_health_tool_in_list(self):
         """Test that get_health tool appears in tools/list"""
         from src.main import app
@@ -389,7 +389,7 @@ class TestMCPHealthTool:
         assert "status" in health_data
         assert health_data["status"] == "healthy"
 
-    @patch.dict(os.environ, {"GLOSSARY_API_KEYS": "sk-test-123"})
+    @patch.dict(os.environ, {"MCP_API_KEYS": "sk-test-123"})
     def test_mcp_health_with_auth(self):
         """Test that get_health tool also works with API key"""
         from src.main import app
@@ -673,7 +673,7 @@ class TestPerformance:
 class TestIntegration:
     """Integration tests for the complete system"""
 
-    @patch.dict(os.environ, {"GLOSSARY_API_KEYS": "sk-integration-test"})
+    @patch.dict(os.environ, {"MCP_API_KEYS": "sk-integration-test"})
     def test_full_workflow_rest_and_mcp(self):
         """Test complete workflow using both REST and MCP endpoints"""
         from src.main import app

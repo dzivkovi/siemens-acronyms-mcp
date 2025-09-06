@@ -40,7 +40,7 @@ python-dotenv>=1.0.0
 Create or update `.env`:
 ```env
 # API keys for MCP authentication (comma-separated)
-GLOSSARY_API_KEYS=sk-team-A,sk-team-B,sk-team-C
+MCP_API_KEYS=sk-team-A,sk-team-B,sk-team-C
 
 # Optional: specify business route if not /api/v1/search
 BUSINESS_ROUTE=/api/v1/search
@@ -125,7 +125,7 @@ async def validate_api_key(request: Request) -> Optional[str]:
         return None
     
     # Get allowed keys from environment
-    allowed_keys = os.getenv("GLOSSARY_API_KEYS", "").split(",")
+    allowed_keys = os.getenv("MCP_API_KEYS", "").split(",")
     allowed_keys = [key.strip() for key in allowed_keys if key.strip()]
     
     if api_key in allowed_keys:
@@ -394,7 +394,7 @@ class TestMCPIntegration:
         )
         assert response.status_code == status.HTTP_200_OK
     
-    @patch.dict(os.environ, {"GLOSSARY_API_KEYS": "sk-test-123"})
+    @patch.dict(os.environ, {"MCP_API_KEYS": "sk-test-123"})
     def test_mcp_business_requires_auth(self):
         """Test that business functions require authentication"""
         client = TestClient(app)
@@ -430,7 +430,7 @@ class TestMCPIntegration:
         )
         assert response.status_code == status.HTTP_200_OK
     
-    @patch.dict(os.environ, {"GLOSSARY_API_KEYS": "sk-test-123"})
+    @patch.dict(os.environ, {"MCP_API_KEYS": "sk-test-123"})
     def test_mcp_tools_list(self):
         """Test that tools/list returns available tools"""
         client = TestClient(app)

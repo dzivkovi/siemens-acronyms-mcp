@@ -171,7 +171,7 @@ async def validate_api_key(request: Request) -> Optional[str]:
         return None
 
     # Get allowed keys from environment
-    allowed_keys = os.getenv("GLOSSARY_API_KEYS", "").split(",")
+    allowed_keys = os.getenv("MCP_API_KEYS", "").split(",")
     allowed_keys = [key.strip() for key in allowed_keys if key.strip()]
 
     if api_key in allowed_keys:
