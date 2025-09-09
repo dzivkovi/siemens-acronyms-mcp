@@ -1,5 +1,4 @@
-"""
-Core service for searching Siemens acronyms with fuzzy matching and file watching.
+"""Core service for searching Siemens acronyms with fuzzy matching and file watching.
 """
 
 import asyncio
@@ -84,8 +83,7 @@ class AcronymsService:
             self.data = []
 
     async def search(self, query: str, threshold: float = 80.0, limit: int = 10) -> list[dict[str, Any]]:
-        """
-        Search for acronyms with fuzzy matching.
+        """Search for acronyms with fuzzy matching.
 
         Args:
             query: Search query
