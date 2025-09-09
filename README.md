@@ -27,6 +27,30 @@ This repository serves two audiences:
 - **Secure**: API key authentication for MCP endpoints
 - **Fast**: <50ms response time with 1000+ terms
 
+## 🎯 Why This MCP Implementation is Different
+
+This server demonstrates **modern MCP best practices** that solve real integration problems:
+
+### ✅ **No Azure AD Overhead**
+- Simple API key management via `MCP_API_KEYS` environment variable
+- Perfect for small teams who want to manage their own authentication
+- No complex OAuth flows or enterprise identity provider setup required
+
+### ✅ **VS Code Compatible Authentication**  
+- Uses **HTTP 403 Forbidden** (not 401 Unauthorized) for invalid API keys
+- Prevents "Dynamic Client Registration not supported" OAuth popup errors
+- Maintains security without breaking the VS Code user experience
+
+### ✅ **Proper FastMCP Usage**
+- Actually uses `@mcp.tool()` decorators (doesn't define them and ignore them)
+- Clean 150-line implementation vs typical 300+ line manual JSON-RPC handling
+- FastMCP handles all protocol details automatically
+
+### ✅ **Production Ready**
+- Middleware-based authentication with proper error handling
+- Separate service modules for clean code organization
+- Comprehensive test coverage with modern pytest patterns
+
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -78,13 +102,15 @@ This repository serves two audiences:
 ```
 siemens-acronyms-mcp/
 ├── src/
-│   ├── main.py              # FastAPI server with REST & MCP endpoints
+│   ├── main.py              # FastAPI server (150 lines, clean & focused)
+│   ├── mcp_service.py       # MCP tools using proper @mcp.tool() decorators  
+│   ├── auth_middleware.py   # HTTP 403 auth (VS Code compatible)
 │   └── acronyms_service.py  # Fuzzy search engine with file watching
 ├── tests/
-│   └── test_acronyms_server.py  # 31 comprehensive tests
+│   └── test_acronyms_server.py  # Modern pytest test suite
 ├── siemens_acronyms.json    # Glossary data (3 samples, add more!)
 ├── .vscode/
-│   ├── mcp.json            # VS Code MCP configuration
+│   ├── mcp.json            # VS Code MCP configuration (works without OAuth!)
 │   └── settings.json       # Development settings
 ├── .claude/
 │   └── settings.json       # Claude Code permissions
@@ -134,6 +160,8 @@ curl "http://localhost:8000/api/v1/search?q=Sim"
 **Endpoint:** `POST /mcp`
 
 Requires `X-API-Key` header with valid API key from `MCP_API_KEYS` (except for the `get_health` tool).
+
+**📝 Important**: This implementation uses **HTTP 403 Forbidden** for authentication failures (not 401 Unauthorized). This prevents VS Code from triggering OAuth popups and maintains a smooth user experience while keeping your data secure.
 
 **Available MCP Tools:**
 
