@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
-"""
-MCP Service - Minimal implementation using FastMCP 2.11.2 capabilities.
+"""MCP Service - Minimal implementation using FastMCP 2.11.2 capabilities.
 HTTP 403 authentication for VS Code compatibility.
 """
 
+import functools
 import json
+import logging
 import socket
 import time
-import logging
+
 from fastmcp import FastMCP
 
 from .acronyms_service import AcronymsService
@@ -25,8 +26,7 @@ acronyms_service = AcronymsService()
 
 @mcp.tool()
 async def search_acronyms(query: str) -> str:
-    """
-    Search for Siemens acronyms and terminology with fuzzy matching.
+    """Search for Siemens acronyms and terminology with fuzzy matching.
 
     Args:
         query: The term or acronym to search for
@@ -45,7 +45,7 @@ async def search_acronyms(query: str) -> str:
     except Exception as e:
         logger.error(f"Search error in MCP tool: {e}")
         error_response = {
-            "error": f"Search failed: {str(e)}",
+            "error": f"Search failed: {e!s}",
             "query": query,
             "results": [],
             "count": 0
@@ -55,8 +55,7 @@ async def search_acronyms(query: str) -> str:
 
 @mcp.tool()
 async def get_health() -> str:
-    """
-    Get server health status including uptime, hostname, and version.
+    """Get server health status including uptime, hostname, and version.
 
     Returns:
         JSON string with health status data
@@ -71,19 +70,18 @@ async def get_health() -> str:
     return json.dumps(health_data)
 
 
-def get_mcp_app():
-    """
-    Get FastMCP ASGI app using HTTP transport - actual code-buddy pattern.
-    
+@functools.lru_cache(maxsize=1)
+def get_mcp_app() -> object:
+    """Get FastMCP ASGI app using HTTP transport - actual code-buddy pattern.
+
     This uses the proven working HTTP transport from code-buddy, not SSE.
     FastMCP handles all HTTP JSON-RPC protocol details automatically.
     """
     return mcp.http_app(path="/")
 
 
-async def initialize_mcp_service():
-    """
-    Initialize the MCP service by loading acronyms data.
+async def initialize_mcp_service() -> None:
+    """Initialize the MCP service by loading acronyms data.
     Call this during application startup.
     """
     logger.info("Initializing MCP service...")

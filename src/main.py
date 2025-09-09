@@ -1,5 +1,4 @@
-"""
-FastAPI application with dual REST/MCP endpoints for Siemens acronyms.
+"""FastAPI application with dual REST/MCP endpoints for Siemens acronyms.
 
 This implementation demonstrates modern MCP best practices:
 - Actually uses @mcp.tool() decorators (vs defining and ignoring them)
@@ -8,23 +7,23 @@ This implementation demonstrates modern MCP best practices:
 - API key management suitable for small teams without Azure AD overhead
 """
 
-import json
 import logging
 import os
 import socket
 import time
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
-from typing import Any, Optional
+from typing import Any
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Query, Request, status
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, RedirectResponse
+from fastapi.responses import RedirectResponse
 from pydantic import BaseModel, Field
 
-from .mcp_service import get_mcp_app
-from .auth_middleware import MCPAuthMiddleware
 from .acronyms_service import AcronymsService
+from .auth_middleware import MCPAuthMiddleware
+from .mcp_service import get_mcp_app
 
 # Load environment variables
 load_dotenv()
@@ -63,7 +62,7 @@ mcp_app = get_mcp_app()
 
 
 @asynccontextmanager
-async def combined_lifespan(app):
+async def combined_lifespan(app) -> AsyncGenerator[None, None]:
     """Combined lifespan for FastAPI and MCP"""
     # Start MCP lifespan
     async with mcp_app.lifespan(app):
@@ -121,8 +120,7 @@ async def health_check() -> HealthResponse:
 
 @app.get("/api/v1/search", response_model=SearchResponse)
 async def rest_search_acronyms(q: str = Query(..., min_length=1, description="Search query")) -> SearchResponse:
-    """
-    Search for acronyms with fuzzy matching.
+    """Search for acronyms with fuzzy matching.
 
     This is the public REST endpoint - no authentication required.
     """

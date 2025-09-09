@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""
-Proven MCP authentication middleware from code-buddy project.
+"""Proven MCP authentication middleware from code-buddy project.
 Returns HTTP 403 (not 401) to avoid VS Code OAuth popups.
 """
 
 import logging
 import os
+
 from fastapi import Request
 from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
@@ -14,8 +14,7 @@ logger = logging.getLogger(__name__)
 
 
 class MCPAuthMiddleware(BaseHTTPMiddleware):
-    """
-    Middleware to validate API keys for MCP endpoints.
+    """Middleware to validate API keys for MCP endpoints.
     Returns 403 Forbidden (not 401) to avoid triggering VS Code OAuth popups.
 
     IMPORTANT: This is a deliberate architectural decision, not a mistake.
@@ -29,7 +28,7 @@ class MCPAuthMiddleware(BaseHTTPMiddleware):
         if request.url.path.startswith("/mcp"):
             # Get valid API keys from environment
             valid_keys_str = os.getenv("MCP_API_KEYS", "")
-            
+
             # If no keys configured, allow access (backward compatibility)
             if not valid_keys_str:
                 logger.debug("No MCP_API_KEYS configured - allowing MCP access")
@@ -51,7 +50,7 @@ class MCPAuthMiddleware(BaseHTTPMiddleware):
                 )
 
             if api_key not in valid_keys:
-                logger.warning(f"Invalid MCP API key attempted: {api_key[:10]}...")
+                logger.warning(f"Invalid MCP API key attempted: {api_key[:6]}...")
                 # CRITICAL: Return 403 (not 401) - see comment above
                 return JSONResponse(
                     status_code=403,  # <-- Intentionally NOT 401
@@ -59,6 +58,6 @@ class MCPAuthMiddleware(BaseHTTPMiddleware):
                 )
 
             # Valid key - allow request
-            logger.debug(f"Valid MCP API key accepted: {api_key[:10]}...")
+            logger.debug(f"Valid MCP API key accepted: {api_key[:6]}...")
 
         return await call_next(request)
