@@ -18,7 +18,7 @@
 2. **Configure environment**
    ```bash
    cp .env.example .env
-   # Add your GLOSSARY_API_KEY to .env
+   # Add your MCP_API_KEYS to .env
    ```
 
 ## Development Workflow

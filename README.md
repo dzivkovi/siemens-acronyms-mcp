@@ -1,16 +1,49 @@
 # Siemens Acronyms MCP Server
 
-A glossary service exposing Siemens-specific terminology via REST API and MCP (Model Context Protocol) endpoints. This demonstrates how to add MCP capabilities to existing internal APIs, making institutional knowledge accessible to AI assistants and development tools.
-
 ## 📚 Dual Purpose Project
 
-This repository serves two audiences:
+This repository serves two important audiences:
 
-**1. MCP Server Example** - For developers adding MCP to existing REST APIs without separate server binaries  
-**2. Compound Engineering Scaffold** - For developers adopting AI-assisted workflows
+### **1. MCP Server Example** 
+For developers adding MCP (Model Context Protocol) to existing REST APIs without separate server binaries. This demonstrates how to make institutional knowledge accessible to AI assistants and development tools.
+
+### **2. Compound Engineering Scaffold** 
+For developers adopting AI-assisted workflows with Claude Code and other AI tools. A complete project structure optimized for parallel task execution and AI orchestration.
 
 🎬 **Watch the workflow**: [Compound Engineering with Claude Code](https://www.youtube.com/watch?v=ZVvW7PvVnnk) (15 min)  
 📋 **Fork the scaffold**: See [SCAFFOLD_NOTES.md](./SCAFFOLD_NOTES.md) for reusing this structure
+
+---
+
+## 🏗️ The Method: Compound Engineering
+
+This scaffold implements the workflow from Kieran Klaassen's [Claude Code: How Two Engineers Ship Like a Team of 15](https://www.youtube.com/watch?v=Lh_X32t9_po). 
+
+Two engineers at Every shipped 6 features, 5 bug fixes, and 3 infrastructure updates in one week. How? By using GitHub issues + AI in a way that makes every line of code traceable to requirements.
+
+### Why It Works for Enterprise Teams
+
+- You already use GitHub/GitLab issues
+- Everything is transparent: Issues → **[Kanban](https://github.com/users/dzivkovi/projects/3/views/1)** → PRs  
+- No "vibe coding" - every change has a clear purpose
+- No new tools to learn, just better use of existing ones
+
+### Real Example: This Repository
+
+Built entirely with this approach. Check our **[public Kanban board](https://github.com/users/dzivkovi/projects/3/views/1)** to see how PRs #7 and #9 went from issue to deployment.
+
+### Learn More
+
+- 📺 [Original video](https://www.youtube.com/watch?v=Lh_X32t9_po) (74K+ views)
+- 📖 [Detailed article](https://every.to/source-code/how-i-use-claude-code-to-ship-like-a-team-of-five) by Every
+- 🎬 [15-min demo](https://www.youtube.com/watch?v=ZVvW7PvVnnk) 
+- 📋 My story: [SCAFFOLD_NOTES.md](./SCAFFOLD_NOTES.md)
+
+---
+
+## Overview
+
+A glossary service exposing Siemens-specific terminology via REST API and MCP endpoints. This working example demonstrates modern MCP best practices that solve real integration problems.
 
 ## 🎯 See It In Action
 
@@ -54,8 +87,22 @@ This server demonstrates **modern MCP best practices** that solve real integrati
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Python 3.10 or higher
 - pip package manager
+- FastMCP 2.11.2 or higher (older versions have different API)
+
+**Prerequisites Check:**
+```bash
+# Verify Python version (should be 3.10+)
+python --version
+
+# Verify pip is installed and recent
+python -m pip --version
+
+# Upgrade pip to latest (recommended)
+python -m pip install --upgrade pip
+```
 
 ### Installation
 
@@ -71,6 +118,15 @@ This server demonstrates **modern MCP best practices** that solve real integrati
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    python -m pip install --upgrade pip
    pip install -r requirements.txt
+   ```
+
+   **Verify Installation:**
+   ```bash
+   # Check FastMCP version (should be 2.11.2+)
+   python -c "import fastmcp; print(f'FastMCP version: {fastmcp.__version__}')"
+   
+   # Verify all dependencies installed
+   python -c "import fastapi, starlette, rapidfuzz; print('All dependencies OK')"
    ```
 
 3. **Configure environment variables**
@@ -96,6 +152,28 @@ This server demonstrates **modern MCP best practices** that solve real integrati
    ```
 
    The server will be available at http://localhost:8000
+
+### Quick Test Your Setup
+
+After starting the server, verify everything is working:
+
+```bash
+# Test 1: Health endpoint
+curl http://localhost:8000/health
+# Expected: {"status":"healthy","hostname":"...","uptime":...,"version":"1.0.0"}
+
+# Test 2: REST API search
+curl "http://localhost:8000/api/v1/search?q=EDA"
+# Expected: Results with EDA definition
+
+# Test 3: Fuzzy search (handles typos)
+curl "http://localhost:8000/api/v1/search?q=Temcenter"
+# Expected: Returns "Teamcenter" with ~94% match score
+
+# Test 4: MCP via Claude Code (if configured)
+claude -p "Using the siemens-acronyms MCP server, what does DISW mean?"
+# Expected: Returns DISW definition
+```
 
 ### What's Included
 
@@ -273,7 +351,7 @@ After starting the server, you can connect Claude Code to use the acronyms servi
          "type": "http",
          "url": "http://localhost:8000/mcp",
          "headers": {
-           "X-API-Key": "${GLOSSARY_API_KEY:-sk-team-A}"
+           "X-API-Key": "${MCP_API_KEY:-sk-team-A}"
          }
        }
      }

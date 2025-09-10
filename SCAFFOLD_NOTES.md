@@ -101,7 +101,7 @@ grep -r "siemens\|Siemens\|acronym\|Acronym\|glossary\|Glossary" --exclude-dir=.
 | `siemens_acronyms.json` | Sample data file | Your data (or delete) |
 | `src/acronyms_service.py` | Service logic | Rename to match your domain |
 | `tests/test_acronyms_server.py` | Test suite | Rename to match your domain |
-| `.env.example` | GLOSSARY_API_KEY | Your env variables |
+| `.env.example` | MCP_API_KEYS | Your env variables |
 
 ### Step 4: MCP Configuration (Optional)
 If NOT using MCP:

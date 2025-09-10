@@ -53,7 +53,7 @@ The application follows a layered architecture with clear separation of concerns
 
 ### MCP Integration Pattern
 - Uses `fastmcp` library for MCP protocol implementation
-- Authentication via environment variable `GLOSSARY_API_KEY`
+- Authentication via environment variable `MCP_API_KEYS`
 - Same search functionality exposed through both REST and MCP
 - Response format consistency across both endpoints
 
@@ -100,7 +100,7 @@ This improves performance significantly and should be the default approach for i
 ## Important Context
 
 ### Environment Variables
-- `GLOSSARY_API_KEY` - Required for MCP endpoint authentication
+- `MCP_API_KEYS` - Required for MCP endpoint authentication (comma-separated list)
 - `GLOSSARY_FILE_PATH` - Optional, defaults to `siemens_acronyms.json`
 - `LOG_LEVEL` - Optional, defaults to `INFO`
 
