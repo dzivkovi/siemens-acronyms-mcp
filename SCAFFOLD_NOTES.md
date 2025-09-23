@@ -48,7 +48,7 @@ This shifts your mental model from coding to engineering management—orchestrat
 ## What This Scaffold Provides
 
 ### Claude Code Integration
-- 6 custom slash commands in `.claude/commands/`
+- 7 custom slash commands in `.claude/commands/`
 - CLAUDE.md with project-specific AI instructions
 - Emphasis on parallel task execution via subagents
 
@@ -182,7 +182,7 @@ git commit -m "feat: Initialize project from Compound Engineering scaffold"
 ## What Makes This Scaffold Special
 
 1. **Compound Engineering Ready**: Optimized for AI-assisted development with Claude Code
-2. **Complete Workflow**: From design (`/design`) to implementation (`/work`) to reflection
+2. **Complete Workflow**: From exploration (`/explore`) to implementation (`/work`) to reflection
 3. **Quality Built-in**: TDD, linting, and formatting pre-configured
 4. **Documentation-First**: CLAUDE.md ensures consistent AI assistance across sessions
 5. **Real Example**: Based on actual production code, not theoretical templates

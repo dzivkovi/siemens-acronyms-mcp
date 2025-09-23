@@ -52,7 +52,6 @@ Copy this template into `DESIGN.md` in this folder:
 
 ## Important Notes
 
-- **Template Consistency**: This template matches what the `/design` command generates
 - **Clean Workspace**: Always ensure this folder contains only `README.md` after moving work to numbered folders
 - **Documentation First**: Check relevant documentation and existing patterns before designing
 - **Specificity**: Be specific about implementation details and include concrete acceptance criteria
