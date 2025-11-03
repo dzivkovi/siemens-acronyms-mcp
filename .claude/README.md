@@ -4,8 +4,20 @@ This directory contains custom slash commands for Claude Code. Each `.md` file i
 
 ## Available Commands
 
+### From Anthropic Official Cookbooks
+
+These commands are from [Anthropic's Claude Cookbooks](https://github.com/anthropics/claude-cookbooks/tree/main/.claude/commands):
+
+- `/link-review` - Review links in changed files for quality and security issues
+- `/model-check` - Validate Claude model usage against current public models
+- `/notebook-review` - Comprehensive review of Jupyter notebooks and Python scripts
+
+### Custom Commands
+
+Remaining commands are custom for this project (based on [ai-strategy-consulting](https://github.com/dzivkovi/ai-strategy-consulting/tree/main/.claude)):
+
 - `/explore` - Chat about possible approaches
-- `/issue` - Create GitHub issues
+- `/issue` - Create GitHub issues (my take on [Compound Engineering](https://every.to/c/compounding-engineering))
 - `/work` - Implement GitHub issue using TDD
 - `/resume` - Continue interrupted work
 - `/kanban` - Retroactive documentation for completed work
@@ -15,10 +27,7 @@ This directory contains custom slash commands for Claude Code. Each `.md` file i
 ## Usage
 
 Type any command in a Claude Code session. For example:
-- `/explore how to add caching`
-- `/issue 'Add rate limiting to API'`
-- `/work 42`
-
-## Learn More
-
-See [SCAFFOLD_NOTES.md](../SCAFFOLD_NOTES.md) for the complete Compound Engineering workflow.
+- `/notebook-review` - Review Jupyter notebooks (Anthropic command)
+- `/explore how to add caching` - Explore implementation approaches
+- `/issue 'Add rate limiting to API'` - Create GitHub issue
+- `/work 42` - Implement issue #42
