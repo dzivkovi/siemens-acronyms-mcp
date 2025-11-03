@@ -4,11 +4,37 @@ __pycache__/
 *$py.class
 *.so
 .Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Virtual environments
 venv/
+.venv/
 env/
 ENV/
+
+# Environment variables
 .env*
-.venv
+
 
 # IDE
 .vscode/*
@@ -34,13 +60,30 @@ Thumbs.db
 CLAUDE.local.md
 .claude/settings.local.json
 
-# work folders
-work/
-data/
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.BAK
+*.old
 
-# temporary conversation files
+# Analysis folder - exclude temporary conversation files
 analysis/**/2025-*/
 analysis/**/archive/
 
 # starter design docs (later moved to analysis/<issue#>/DESIGN.md)
 analysis/0000/DESIGN*.md
+# Don't ignore .gitkeep files
+!.gitkeep
+
+# Work folders
+work/
+data/
+
+# LlamaIndex cache/index files (regenerated on each run)
+rag_index/
+storage/
+*.index
+
+# Git worktrees
+.worktrees/
