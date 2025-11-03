@@ -3,30 +3,6 @@
 # Default behavior - treat all files as text with LF line endings
 * text=auto eol=lf
 
-# Explicitly declare text files with LF endings
-*.py text eol=lf
-*.sh text eol=lf
-*.yml text eol=lf
-*.yaml text eol=lf
-*.json text eol=lf
-*.md text eol=lf
-*.txt text eol=lf
-*.cypher text eol=lf
-*.sql text eol=lf
-*.js text eol=lf
-*.ts text eol=lf
-*.jsx text eol=lf
-*.tsx text eol=lf
-*.css text eol=lf
-*.scss text eol=lf
-*.html text eol=lf
-*.xml text eol=lf
-*.env text eol=lf
-.gitignore text eol=lf
-.gitattributes text eol=lf
-Dockerfile text eol=lf
-Makefile text eol=lf
-
 # Windows-specific files (keep CRLF)
 *.bat text eol=crlf
 *.cmd text eol=crlf
@@ -47,9 +23,10 @@ Makefile text eol=lf
 *.dll binary
 *.so binary
 *.dylib binary
-*.woff binary
-*.woff2 binary
-*.ttf binary
-*.eot binary
-*.db binary
-*.sqlite binary
+
+# Git LFS - track specific large files manually when needed
+# Usage: git lfs track "path/to/large-file.pdf"
+# Common patterns for reference:
+#   *.psd filter=lfs diff=lfs merge=lfs -text    # Photoshop (often multi-MB)
+#   *.mp4 filter=lfs diff=lfs merge=lfs -text    # Videos
+#   *.csv filter=lfs diff=lfs merge=lfs -text    # Large datasets
