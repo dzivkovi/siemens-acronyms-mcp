@@ -17,7 +17,7 @@
 
 2. **Configure environment**
    ```bash
-   cp .env.example .env
+   cp env.example .env
    # Add your MCP_API_KEYS to .env
    ```
 

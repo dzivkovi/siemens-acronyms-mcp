@@ -25,7 +25,7 @@ Siemens Acronyms MCP Server - A glossary service exposing Siemens-specific termi
 - `source venv/bin/activate` - Activate virtual environment (Windows: `venv\Scripts\activate`)
 - `python -m pip install --upgrade pip` - Upgrade pip (IMPORTANT: do this first!)
 - `pip install -r requirements.txt` - Install dependencies
-- `cp .env.example .env` - Create environment file (edit with API keys)
+- `cp env.example .env` - Create environment file (edit with API keys)
 
 Tip: Use `source scripts/aliases.sh` for convenient shortcuts (mkv, va, vp)
 

@@ -131,7 +131,7 @@ python -m pip install --upgrade pip
 
 3. **Configure environment variables**
    ```bash
-   cp .env.example .env
+   cp env.example .env
    ```
    
    Edit `.env` and add your API keys:
@@ -514,7 +514,7 @@ siemens-acronyms-mcp/
 │   └── test_acronyms_server.py  # Test suite
 ├── siemens_acronyms.json    # Glossary data (hot-reloadable)
 ├── requirements.txt         # Python dependencies
-├── .env.example            # Environment template
+├── env.example            # Environment template
 └── README.md              # This file
 ```
 
